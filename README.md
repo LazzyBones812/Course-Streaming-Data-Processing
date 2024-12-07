@@ -7,14 +7,18 @@ The project for the course "Streaming data processing"
  - Scrapy - для получения данных с новостных источников
  - schedule - для того, чтобы паук Scrapy запускался через определенное время
  - confluent_kafka - для взаимодействия с Kafka
+ - streamlit - для построение приложения в вебе
+ - nltk - для обработки текстовых данных
+ - plotly - для построения графиков
 
-В *parse_fin_data\spiders* хранится файл yahoo_finance.py, в котором описана работа паука Scrapy. В этом файле в переменной lst хранится список тикетов ценных бумаг, информацию о которых паук получает. 
+В *parse_fin_data\spiders* хранится файл yahoo_finance.py, в котором описана работа паука Scrapy. В этом файле в переменной lst хранится список тикетов ценных бумаг, информацию о которых паук получает. Данные передаются в топик kafka *some_topic*
 
 В файле main.py описана работа schedule. Цель этой программы - запускать паука Scrapy через каждую минуту.
 
+В файле *parse_fin_data\consumer_kafka.py* описан консьюмер kafka, который получает спарсенные с YahooFinance данные, преобразовывает их, подсчитывает частоту слов в полученных текстах и передает в топик *res_topic*
+
+В файле *main_strm.py* данные приходят с топика *res_topic* и строится гистограмма 10-ти самых частовстречаемых слов в streamlit по адресу *localhost:8501* 
+
 В файл results.json записываются промежуточные результаты, которые получил паук Scrapy
 
-Для запуска нужно в директории parse_fin_data запустить файл main.py
- - python main.py
-
-Для запуска docker-compose - docker compose -f docker-compose-kafka.yml up
+Для запуска приложения нужно ввести в терминале команду: docker compose -f docker-compose.yml up
