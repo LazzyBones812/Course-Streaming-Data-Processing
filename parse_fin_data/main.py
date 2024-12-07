@@ -5,7 +5,7 @@ import os
 import confluent_kafka
 from confluent_kafka.admin import AdminClient, ConfigResource, NewTopic
 
-conf = {'bootstrap.servers': 'localhost:9092'}
+conf = {'bootstrap.servers': 'kafka:29092'}
 adminClient = AdminClient(conf)
 adminClient.create_topics([NewTopic("some_topic", 1, 1)])
 adminClient.create_topics([NewTopic("res_topic", 1, 1)])

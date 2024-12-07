@@ -10,7 +10,7 @@ class YahooFinanceSpider(scrapy.Spider):
     start_urls = ['https://finance.yahoo.com/quote/' + x + '/news/' for x in lst]
 
     TOPIC_NAME = "some_topic"
-    producer = Producer({"bootstrap.servers": "localhost:9092"})
+    producer = Producer({"bootstrap.servers": "kafka:29092"})
 
     def parse(self, response):
         for url_content in response.xpath("//li[@class = 'stream-item story-item yf-1usaaz9']/section/a"):

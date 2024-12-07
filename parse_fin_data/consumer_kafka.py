@@ -5,10 +5,14 @@ import streamlit as st
 import plotly.express as px
 import time
 
+import nltk
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
 from nltk.stem import WordNetLemmatizer
 
+nltk.download('punkt_tab')
+nltk.download('stopwords')
+nltk.download('wordnet')
 
 def process_words(message: str) -> list[str]:
     tokens = word_tokenize(message)
@@ -35,7 +39,7 @@ def count_unique_words(list_w: list) -> pd.DataFrame:
     return pd.DataFrame(list(dict_df.items()), columns=['words', 'count']).sort_values(by='count', ascending=False).reset_index(drop=True)
 
 consumer = Consumer({
-    "bootstrap.servers": "localhost:9092",
+    "bootstrap.servers": "kafka:29092",
     "group.id": "group1",
     "auto.offset.reset": "earliest"
 })
@@ -54,7 +58,7 @@ list_message = ' '.join(list_message)
 df = count_unique_words(process_words(list_message))
 
 
-producer = Producer({"bootstrap.servers": "localhost:9092"})
+producer = Producer({"bootstrap.servers": "kafka:29092"})
 for i in range(df.shape[0]):
     producer.produce('res_topic', key=str(df.values[i][0]), value=str(df.values[i][1]))
     producer.flush()

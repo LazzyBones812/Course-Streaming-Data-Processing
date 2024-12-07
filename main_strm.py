@@ -17,7 +17,7 @@ st.sidebar.info("Репозиторий проекта по курсу "
                 "[here](https://github.com/LazzyBones812/Course-Streaming-Data-Processing).")
 
 consumer = Consumer({
-    "bootstrap.servers": "localhost:9092",
+    "bootstrap.servers": "kafka:29092",
     "group.id": "group1",
     "auto.offset.reset": "earliest"
 })
